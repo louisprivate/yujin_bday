@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>유진이 웹사이트</title>
+  <!-- 카톡 미리보기 이미지 안 보이게 투명 1x1 gif 지정 -->
+  <meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: #ffe6f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    #birthday-btn {
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: none;
+      margin-top: 20px;
+    }
+
+    #message {
+      font-size: 24px;
+      color: #d6336c;
+      display: none;
+      margin-top: 30px;
+    }
+
+    #dday {
+      font-size: 20px;
+      color: #333;
+      margin-top: 15px;
+    }
+
+    #birthday-img {
+      width: 250px;
+      margin-top: 20px;
+      border-radius: 16px;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    #youtube-container {
+      display: none;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      #birthday-btn {
+        font-size: 16px;
+      }
+      #message {
+        font-size: 20px;
+      }
+      #dday {
+        font-size: 18px;
+      }
+      #birthday-img {
+        width: 80%;
+      }
+      #youtube-container iframe {
+        width: 100%;
+        height: 180px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>두둥두둥두둥</h1>
+  <h1>따단따단</h1>
+  <div id="dday"></div>
+  <button id="birthday-btn">깜짝선물 (소리키고 눌러줘)</button>
+  <div id="message">🎉 유진이 생일축하해! 🎂</div>
+  <h1>유진이 사랑해!!!</h1>
+  <img id="birthday-img" src="yujin.jpg" alt="생일 축하 이미지" />
+  <div id="youtube-container">
+    <iframe id="youtube-player" width="300" height="180" 
+      src="" 
+      title="생일 축하 노래" 
+      frameborder="0" 
+      allow="autoplay; encrypted-media" 
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <script>
+    const birthMonth = 5; // 생일 월
+    const birthDate = 26;  // 생일 일
+
+    const ddayEl = document.getElementById('dday');
+    const btn = document.getElementById('birthday-btn');
+    const msg = document.getElementById('message');
+    const img = document.getElementById('birthday-img');
+    const youtubeContainer = document.getElementById('youtube-container');
+    const youtubePlayer = document.getElementById('youtube-player');
+
+    function updateCountdown() {
+      const now = new Date();
+      const thisYear = now.getFullYear();
+      const target = new Date(thisYear, birthMonth - 1, birthDate, 10, 0, 0);
+
+      const diff = target - now;
+
+      if (diff > 0) {
+        // 생일 전: 카운트다운 표시, 버튼 숨김
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        ddayEl.innerText = `🎈 D-${days}일 ${hours}시간 ${minutes}분 ${seconds}초`;
+        btn.style.display = 'none';
+        msg.style.display = 'none';
+        img.style.display = 'none';
+        youtubeContainer.style.display = 'none';
+      } else {
+        // 생일 당일 및 이후: D-DAY 고정, 버튼 항상 보임
+        ddayEl.innerText = "🎂 D-DAY!";
+        btn.style.display = 'inline-block';
+        // 메시지, 사진, 유튜브는 버튼 클릭 후 보여줌
+      }
+    }
+
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    btn.addEventListener('click', () => {
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+      msg.style.display = 'block';
+      img.style.display = 'block';
+      youtubePlayer.src = "https://www.youtube.com/embed/16OzPQ-TMeY?autoplay=1";
+      youtubeContainer.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
